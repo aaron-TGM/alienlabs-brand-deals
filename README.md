@@ -75,3 +75,23 @@ Serve the folder with `python3 -m http.server 8765` and open http://localhost:87
 
 - **Shared columns:** the tracker's shared AL/CC flower, Cold Chain and holiday columns count for Alien Labs. Alien Fingers uses the AL-only columns.
 - **Look:** colors and fonts are set in the `brand.theme` and `brand.fonts` blocks of `data/promos.json`. `embed.js` is the same engine as the Connected calendar.
+
+## Arizona
+
+The calendar has a **California | Arizona** switch.
+- **Default state:** California. Visitors whose device is set to Arizona time start on Arizona, and the page remembers the last state picked.
+- **Linking:** `?state=az` in the page URL (or `data-state="az"` on the div) opens Arizona.
+
+| File | What it is |
+|---|---|
+| `deals-az-YYYY-MM.json` / `deals-az.json` | Arizona month files and the fallback. |
+| `data/az-promos.json` | Arizona promo copy. Each sheet row is matched by the start of its "Promotion" text. `{brand}` becomes the brand name. Deals are brand products only. |
+| `data/az-shop-map.json` | Arizona retailer → stores. Every location of a chain is included. Stores missing from the locator are listed by hand under `locations`; Ponderosa's stores are listed as JARS, since JARS bought Ponderosa. |
+
+To update from a new Arizona programming sheet (columns: Promotion, Promo Dates, Retailers):
+
+```bash
+python3 tools/build_az.py "Retailer Programming.xlsx"
+```
+
+The build prints any promo or retailer it can't place. Add those to `az-promos.json` or `az-shop-map.json`, then re-run. Dates in the sheet can be "Nov 25-27", "Nov 24-27", "11/25" or a date cell. Arizona days run on Arizona time.
